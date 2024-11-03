@@ -28,13 +28,17 @@ func main() {
 		return
 	}
 	resolvedPath = sanitizePath(resolvedPath)
+
 	repoCount := 0
 	attentionRepos := []string{}
+
 	fmt.Printf("%sSearching for git repositories in %s...%s\n", colorCyan, resolvedPath, colorReset)
+
 	err = filepath.Walk(resolvedPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
+
 		if info.IsDir() && isGitRepository(path) {
 			repoCount++
 			if checkRepoStatus(path) {
@@ -47,6 +51,7 @@ func main() {
 		fmt.Printf("%sError walking the path: %v%s\n", colorRed, err, colorReset)
 		return
 	}
+
 	if repoCount == 0 {
 		fmt.Printf("%sNo git repositories found.%s\n", colorYellow, colorReset)
 	} else if len(attentionRepos) == 0 {
@@ -93,6 +98,7 @@ func checkRepoStatus(path string) bool {
 	cmd := exec.Command("git", "-C", path, "status", "--porcelain")
 	var out bytes.Buffer
 	cmd.Stdout = &out
+
 	err := cmd.Run()
 	if err != nil {
 		fmt.Printf("%sError checking repository status %s: %v%s\n", colorRed, path, err, colorReset)
