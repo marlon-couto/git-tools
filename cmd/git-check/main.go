@@ -35,7 +35,6 @@ func main() {
 		if err != nil {
 			return err
 		}
-
 		if info.IsDir() && isGitRepository(path) {
 			repoCount++
 			if checkRepoStatus(path) {
