@@ -1,2 +1,2 @@
-# repo-check
-An console app to check which repositories status needs attention
+# git-tools
+A collection of command-line tools for git
